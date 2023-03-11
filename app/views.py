@@ -6,7 +6,9 @@ This file contains the routes for your application.
 """
 
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+from .properties import NewPropertyForm
 
 
 ###
@@ -24,10 +26,43 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
-@app.route('/property', methods=['GET', 'POST'])
-def property():
+@app.route('/properties/create', methods=['GET', 'POST'])
+def properties():
     """Render the new property page"""
-    return render_template('property.html')
+    myform = NewPropertyForm()
+    if request.method == 'POST':
+        if myform.validate_on_submit():
+            title = myform.title.data
+            description = myform.description.data
+            rooms = myform.rooms.data
+            bathrooms = myform.bathrooms.data
+            price = myform.price.data
+            propertyType = myform.propertyType.data
+            location = myform.location.data
+            file = myform.file.data
+            """
+            msg = Message(subject, 
+                sender=(name, email),
+                recipients=["aneil@example.com"])
+            msg.body = message
+            mail.send(msg) """
+
+            flash('You have successfully filled out the form', 'success')
+            return redirect(url_for('home'))
+
+        flash_errors(myform)
+    return render_template('create.html', form=myform)
+
+@app.route('/properties')
+def propertyList():
+    "Render a list of properties in the database"
+    return render_template('home.html')
+
+@app.route('/properties/<propertyid>')
+def propertyId():    
+    "Render a individual property by a specific id"
+
+    return render_template('home.html')
 
 ###
 # The functions below should be applicable to all Flask apps.
