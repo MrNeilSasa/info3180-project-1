@@ -4,11 +4,12 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for, flash
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from werkzeug.utils import secure_filename
-from .properties import NewPropertyForm
+from app.properties import NewPropertyForm
+from .models import Properties
 
 
 ###
@@ -30,6 +31,8 @@ def about():
 def properties():
     """Render the new property page"""
     myform = NewPropertyForm()
+    
+    app.config['UPLOAD_FOLDER'] = "./uploads"
     if request.method == 'POST':
         if myform.validate_on_submit():
             title = myform.title.data
@@ -40,18 +43,21 @@ def properties():
             propertyType = myform.propertyType.data
             location = myform.location.data
             file = myform.file.data
-            """
-            msg = Message(subject, 
-                sender=(name, email),
-                recipients=["aneil@example.com"])
-            msg.body = message
-            mail.send(msg) """
+
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            myform.file.data.save(file_path)
+
+            property = Properties(title,description,rooms,bathrooms,price,propertyType,location, filename)
+            db.session.add(property)
+            db.session.commit()
 
             flash('You have successfully filled out the form', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('propertyList'))
 
         flash_errors(myform)
     return render_template('create.html', form=myform)
+
 
 @app.route('/properties')
 def propertyList():
