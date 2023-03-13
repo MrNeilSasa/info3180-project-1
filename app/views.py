@@ -52,7 +52,7 @@ def properties():
             db.session.add(property)
             db.session.commit()
 
-            flash('You have successfully filled out the form', 'success')
+            flash('You have successfully added the Property', 'success')
             return redirect(url_for('propertyList'))
 
         flash_errors(myform)
@@ -62,14 +62,18 @@ def properties():
 @app.route('/properties')
 def propertyList():
     "Render a list of properties in the database"
-    return render_template('home.html')
+    properties = Properties.query.all()
+    return render_template('properties.html', properties=properties)
 
 @app.route('/properties/<propertyid>')
-def propertyId():    
+def propertyId(id):    
     "Render a individual property by a specific id"
+    property = Properties.query.get_or_404(id)
+    return render_template('propertyDetails.html', property=property) 
 
-    return render_template('home.html')
-
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 ###
 # The functions below should be applicable to all Flask apps.
 ###

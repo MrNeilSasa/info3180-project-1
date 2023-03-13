@@ -1,7 +1,42 @@
 body {
     padding-top: 5rem;
+    background-color: rgb(243, 243, 239);
 }
 
 .navbar{
     background-color: rgb(46, 189, 170);
+}
+
+.properties{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(243, 243, 239);
+
+}
+
+.propertypage{
+    padding: 20px;
+    justify-content: center;
+    align-self: center;
+    background-color: #ffffff
+    
+}
+
+.price{
+    width: 100px;
+    color: aliceblue;
+    background-color: rgb(23, 166, 238);
+    border-radius: 12px;
+    text-align: center;
+    padding: 2px;
+    margin: 15px;
+}
+
+.location{
+    color: rgba(0, 0, 0, 0.623);
+}
+
+.propertyFooter{
+    background-color: rgb(46, 189, 170);
+    text-align: center;
 }
