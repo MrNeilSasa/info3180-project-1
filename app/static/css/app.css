@@ -32,6 +32,18 @@ body {
     margin: 15px;
 }
 
+.ptype{
+    width: 100px;
+    color: aliceblue;
+    background-color: goldenrod;
+    border-radius: 12px;
+    text-align: center;
+    padding: 1px;
+    margin: 10px;
+    align-self: center;
+    justify-content: center;
+}
+
 .location{
     color: rgba(0, 0, 0, 0.623);
 }
@@ -39,4 +51,13 @@ body {
 .propertyFooter{
     background-color: rgb(46, 189, 170);
     text-align: center;
+}
+
+.emailbtn{
+    background-color: rgb(46, 189, 170);
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 12px;
+    width: fit-content;
+    margin: 20px;
 }

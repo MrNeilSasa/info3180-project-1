@@ -66,9 +66,9 @@ def propertyList():
     return render_template('properties.html', properties=properties)
 
 @app.route('/properties/<propertyid>')
-def propertyId(id):    
+def propertyId(propertyid):    
     "Render a individual property by a specific id"
-    property = Properties.query.get_or_404(id)
+    property = Properties.query.get_or_404(propertyid)
     return render_template('propertyDetails.html', property=property) 
 
 @app.route('/uploads/<filename>')
